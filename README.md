@@ -18,7 +18,7 @@ The overall architecture is like this:
 2. Open Studio and then open a new terminal.
 3. Run the following commands on the terminal to clone the code repository for this project:
    ```
-   git clone https://github.com/ksmin23/rag-with-opensearch.git
+   git clone https://github.com/ksmin23/rag-with-amazon-opensearch.git
    ```
 4. Open `data_ingestion_to_opensearch` notebook and Run all cells. (For more information, see [here](./data_ingestion_to_vectordb/data_ingestion_to_opensearch.ipynb))
 5. Run Streamlit application. (For more information, see [here](./app/README.md))
