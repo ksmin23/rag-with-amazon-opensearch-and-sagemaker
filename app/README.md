@@ -37,6 +37,7 @@ SageMaker Studio provides a convenient platform to host the Streamlit web applic
 
 The following screenshot shows the app with a couple of user questions.
 
+![qa-with-llm-and-rag](./qa-with-llm-and-rag.png)
 
 ## References
 
