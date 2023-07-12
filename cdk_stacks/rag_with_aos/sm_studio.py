@@ -137,8 +137,8 @@ class SageMakerStudioStack(Stack):
 
     sagemaker_docker_build_policy_doc.add_statements(aws_iam.PolicyStatement(**{
       "effect": aws_iam.Effect.ALLOW,
-      "resources": ["s3:CreateBucket"],
-      "actions": ["arn:aws:s3:::sagemaker*"]
+      "resources": ["arn:aws:s3:::sagemaker*"],
+      "actions": ["s3:CreateBucket"],
     }))
 
     sagemaker_docker_build_policy_doc.add_statements(aws_iam.PolicyStatement(**{
