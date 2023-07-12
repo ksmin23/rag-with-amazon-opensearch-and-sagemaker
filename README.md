@@ -13,17 +13,16 @@ The overall architecture is like this:
 ### Overall Workflow
 
 1. Deploy the cdk stacks (For more information, see [here](./cdk_stacks/README.md)).
-- A SageMaker Endpoint for text generation.
-- A SageMaker Endpoint for generating embeddings.
-- An Amazon OpenSearch cluster for storing embeddings.
-  - Opensearch cluster's access credentials (username and password) stored in AWS Secrets Mananger by following steps described [here](https://docs.aws.amazon.com/secretsmanager/latest/userguide/managing-secrets.html).
-
-2. Open Studio and then open a new terminal.
+  - A SageMaker Endpoint for text generation.
+  - A SageMaker Endpoint for generating embeddings.
+  - An Amazon OpenSearch cluster for storing embeddings.
+  - Opensearch cluster's access credentials (username and password) stored in AWS Secrets Mananger as a name such as `OpenSearchMasterUserSecret1-xxxxxxxxxxxx`.
+2. Open SageMaker Studio and then open a new terminal.
 3. Run the following commands on the terminal to clone the code repository for this project:
    ```
    git clone https://github.com/ksmin23/rag-with-amazon-opensearch.git
    ```
-4. Open `data_ingestion_to_opensearch` notebook and Run all cells. (For more information, see [here](./data_ingestion_to_vectordb/data_ingestion_to_opensearch.ipynb))
+4. Open `data_ingestion_to_opensearch` notebook and Run it. (For more information, see [here](./data_ingestion_to_vectordb/data_ingestion_to_opensearch.ipynb))
 5. Run Streamlit application. (For more information, see [here](./app/README.md))
 
 ### References

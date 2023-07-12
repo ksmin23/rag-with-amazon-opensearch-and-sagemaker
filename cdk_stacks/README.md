@@ -49,8 +49,7 @@ For example:
 
 ```
 {
-  "opensearch_domain_name": "db-cluster-name",
-  "db_secret_name": "your-db-secret-name",
+  "opensearch_domain_name": "open-search-domain-name"
 }
 ```
 
@@ -60,11 +59,51 @@ Now this point you can now synthesize the CloudFormation template for this code.
 $ cdk synth --all
 ```
 
-Now let's try to deploy.
+Now we will be able to deploy all the CDK stacks at once like this:
 
 ```
 $ cdk deploy --require-approval never --all
 ```
+
+Or, we can provision each CDK stack one at a time like this:
+
+#### Step 1: List all CDK Stacks
+
+```
+$ cdk list
+RAGVpcStack
+RAGOpenSearchStack
+RAGSageMakerStudioStack
+EmbeddingEndpointStack
+LLMEndpointStack
+```
+
+#### Step 2: Create OpenSearch cluster
+
+```
+$ cdk deploy --require-approval never RAGVpcStack RAGOpenSearchStack
+```
+
+#### Step 3: Create SageMaker Studio
+
+```
+$ cdk deploy --require-approval never RAGSageMakerStudioStack
+```
+
+#### Step 4: Deploy LLM Embedding Endpoint
+
+```
+$ cdk deploy --require-approval never EmbeddingEndpointStack
+```
+
+#### Step 5: Deploy Text Generation LLM Endpoint
+
+```
+$ cdk deploy --require-approval never LLMEndpointStack
+```
+
+**Once all CDK stacks have been successfully created, proceed with the remaining steps of the [overall workflow](../README.md#overall-workflow).**
+
 
 ## Clean Up
 
@@ -88,3 +127,4 @@ Enjoy!
 
  * [Build a powerful question answering bot with Amazon SageMaker, Amazon OpenSearch Service, Streamlit, and LangChain](https://aws.amazon.com/blogs/machine-learning/build-a-powerful-question-answering-bot-with-amazon-sagemaker-amazon-opensearch-service-streamlit-and-langchain/)
  * [AWS Deep Learning Containers Images](https://docs.aws.amazon.com/deep-learning-containers/latest/devguide/deep-learning-containers-images.html)
+ * [OpenSearch Popular APIs](https://opensearch.org/docs/latest/opensearch/popular-api/)
