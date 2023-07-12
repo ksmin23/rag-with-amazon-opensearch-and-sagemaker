@@ -36,7 +36,7 @@ If you are a Windows platform, you would activate the virtualenv like this:
 Once the virtualenv is activated, you can install the required dependencies.
 
 ```
-(.env) $ pip install -r requirements.txt
+(.venv) $ pip install -r requirements.txt
 ```
 
 To add additional dependencies, for example other CDK libraries, just add
@@ -56,15 +56,15 @@ For example:
 Now this point you can now synthesize the CloudFormation template for this code.
 
 ```
-(.env) $ export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
-(.env) $ export CDK_DEFAULT_REGION=us-east-1 # your-aws-account-region
-(.env) $ cdk synth --all
+(.venv) $ export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+(.venv) $ export CDK_DEFAULT_REGION=us-east-1 # your-aws-account-region
+(.venv) $ cdk synth --all
 ```
 
 Now we will be able to deploy all the CDK stacks at once like this:
 
 ```
-(.env) $ cdk deploy --require-approval never --all
+(.venv) $ cdk deploy --require-approval never --all
 ```
 
 Or, we can provision each CDK stack one at a time like this:
@@ -72,7 +72,7 @@ Or, we can provision each CDK stack one at a time like this:
 #### Step 1: List all CDK Stacks
 
 ```
-(.env) $ cdk list
+(.venv) $ cdk list
 RAGVpcStack
 RAGOpenSearchStack
 RAGSageMakerStudioStack
@@ -83,25 +83,25 @@ LLMEndpointStack
 #### Step 2: Create OpenSearch cluster
 
 ```
-(.env) $ cdk deploy --require-approval never RAGVpcStack RAGOpenSearchStack
+(.venv) $ cdk deploy --require-approval never RAGVpcStack RAGOpenSearchStack
 ```
 
 #### Step 3: Create SageMaker Studio
 
 ```
-(.env) $ cdk deploy --require-approval never RAGSageMakerStudioStack
+(.venv) $ cdk deploy --require-approval never RAGSageMakerStudioStack
 ```
 
 #### Step 4: Deploy LLM Embedding Endpoint
 
 ```
-(.env) $ cdk deploy --require-approval never EmbeddingEndpointStack
+(.venv) $ cdk deploy --require-approval never EmbeddingEndpointStack
 ```
 
 #### Step 5: Deploy Text Generation LLM Endpoint
 
 ```
-(.env) $ cdk deploy --require-approval never LLMEndpointStack
+(.venv) $ cdk deploy --require-approval never LLMEndpointStack
 ```
 
 **Once all CDK stacks have been successfully created, proceed with the remaining steps of the [overall workflow](../README.md#overall-workflow).**
@@ -112,7 +112,7 @@ LLMEndpointStack
 Delete the CloudFormation stacks by running the below command.
 
 ```
-(.env) $ cdk destroy --all
+(.venv) $ cdk destroy --all
 ```
 
 ## Useful commands
