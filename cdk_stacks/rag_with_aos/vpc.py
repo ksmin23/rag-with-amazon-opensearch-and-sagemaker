@@ -25,8 +25,8 @@ class VpcStack(Stack):
     #   vpc_name=vpc_name
     # )
 
-    # #XXX: To use more than 2 AZs, be sure to specify the account and region on your stack.
-    # #XXX: https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/Vpc.html
+    #XXX: To use more than 2 AZs, be sure to specify the account and region on your stack.
+    #XXX: https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/Vpc.html
     self.vpc = aws_ec2.Vpc(self, 'RAGAppVPC',
       ip_addresses=aws_ec2.IpAddresses.cidr("10.0.0.0/16"),
       max_azs=3,
