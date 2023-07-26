@@ -16,7 +16,7 @@ def main():
 
   WEBSITE, DOMAIN, KB_DIR = (args.website, args.domain, args.output_dir)
 
-  if args.dry_run:
+  if args.dryrun:
     print(f"WEBSITE={WEBSITE}, DOMAIN={DOMAIN}, OUTPUT_DIR={KB_DIR}", file=sys.stderr)
     sys.exit(0)
 
