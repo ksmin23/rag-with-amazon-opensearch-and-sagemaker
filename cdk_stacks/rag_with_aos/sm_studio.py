@@ -54,9 +54,9 @@ class SageMakerStudioStack(Stack):
       "resources": ["arn:aws:codebuild:*:*:project/sagemaker-studio*"],
       "actions": [
         "codebuild:DeleteProject",
-				"codebuild:CreateProject",
-				"codebuild:BatchGetBuilds",
-				"codebuild:StartBuild"
+        "codebuild:CreateProject",
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild"
       ]
     }))
 
@@ -68,10 +68,10 @@ class SageMakerStudioStack(Stack):
 
     sagemaker_docker_build_policy_doc.add_statements(aws_iam.PolicyStatement(**{
       "effect": aws_iam.Effect.ALLOW,
-      "resources": ["arn:aws:logs:*:*:log-group:/aws/codebuild/sagemaker-studio*:log-stream:*"], 
+      "resources": ["arn:aws:logs:*:*:log-group:/aws/codebuild/sagemaker-studio*:log-stream:*"],
       "actions": [
         "logs:GetLogEvents",
-				"logs:PutLogEvents" 
+        "logs:PutLogEvents"
       ]
     }))
 
@@ -112,9 +112,9 @@ class SageMakerStudioStack(Stack):
       "effect": aws_iam.Effect.ALLOW,
       "resources": ["arn:aws:s3:::sagemaker-*/*"],
       "actions": [
-				"s3:GetObject",
-				"s3:DeleteObject",
-				"s3:PutObject"
+        "s3:GetObject",
+        "s3:DeleteObject",
+        "s3:PutObject"
       ]
     }))
 
@@ -128,8 +128,8 @@ class SageMakerStudioStack(Stack):
       "effect": aws_iam.Effect.ALLOW,
       "resources": ["*"],
       "actions": [
-				"iam:GetRole",
-				"iam:ListRoles"
+        "iam:GetRole",
+        "iam:ListRoles"
       ]
     }))
 
