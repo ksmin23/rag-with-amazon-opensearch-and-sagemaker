@@ -48,27 +48,6 @@ class SageMakerStudioStack(Stack):
       "sid": "ReadSecretFromSecretsManager"
     }))
 
-    sagemaker_custom_access_policy_doc.add_statements(aws_iam.PolicyStatement(**{
-      "effect": aws_iam.Effect.ALLOW,
-      "resources": [f"arn:aws:es:{cdk.Aws.REGION}:{cdk.Aws.ACCOUNT_ID}:domain/*"],
-      "actions": [
-        "ecr:BatchGetImage",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:CompleteLayerUpload",
-        "ecr:DescribeImages",
-        "ecr:DescribeRepositories",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:InitiateLayerUpload",
-        "ecr:ListImages",
-        "ecr:PutImage",
-        "ecr:UploadLayerPart",
-        "ecr:CreateRepository",
-        "ecr:GetAuthorizationToken",
-        "ec2:DescribeAvailabilityZones"
-      ],
-      "sid": "ReadWriteFromECR"
-    }))
-
     sagemaker_docker_build_policy_doc = aws_iam.PolicyDocument()
     sagemaker_docker_build_policy_doc.add_statements(aws_iam.PolicyStatement(**{
       "effect": aws_iam.Effect.ALLOW,
@@ -104,19 +83,23 @@ class SageMakerStudioStack(Stack):
 
     sagemaker_docker_build_policy_doc.add_statements(aws_iam.PolicyStatement(**{
       "effect": aws_iam.Effect.ALLOW,
-      "resources": ["arn:aws:ecr:*:*:repository/sagemaker-studio*"],
+      "resources": ["*"],
       "actions": [
-				"ecr:CreateRepository",
-				"ecr:BatchGetImage",
-				"ecr:CompleteLayerUpload",
-				"ecr:DescribeImages",
-				"ecr:DescribeRepositories",
-				"ecr:UploadLayerPart",
-				"ecr:ListImages",
-				"ecr:InitiateLayerUpload",
-				"ecr:BatchCheckLayerAvailability",
-				"ecr:PutImage"
-      ]
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:CompleteLayerUpload",
+        "ecr:DescribeImages",
+        "ecr:DescribeRepositories",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:InitiateLayerUpload",
+        "ecr:ListImages",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart",
+        "ecr:CreateRepository",
+        "ecr:GetAuthorizationToken",
+        "ec2:DescribeAvailabilityZones"
+      ],
+      "sid": "ReadWriteFromECR"
     }))
 
     sagemaker_docker_build_policy_doc.add_statements(aws_iam.PolicyStatement(**{
@@ -163,7 +146,7 @@ class SageMakerStudioStack(Stack):
       "actions": ["iam:PassRole"]
     }))
 
-    sagemaker_emr_execution_role = aws_iam.Role(self, 'SageMakerExecutionRole',
+    sagemaker_execution_role = aws_iam.Role(self, 'SageMakerExecutionRole',
       role_name='AmazonSageMakerStudioExecutionRole-{suffix}'.format(suffix=''.join(random.choices((string.digits), k=5))),
       assumed_by=aws_iam.ServicePrincipal('sagemaker.amazonaws.com'),
       path='/',
@@ -179,8 +162,16 @@ class SageMakerStudioStack(Stack):
       ]
     )
 
+    #XXX: To use the sm-docker CLI, the Amazon SageMaker execution role used by the Studio notebook
+    # environment should have a trust policy with CodeBuild
+    sagemaker_execution_role.assume_role_policy.add_statements(aws_iam.PolicyStatement(**{
+      "effect": aws_iam.Effect.ALLOW,
+      "principals": [aws_iam.ServicePrincipal('codebuild.amazonaws.com')],
+      "actions": ["sts:AssumeRole"]
+    }))
+
     sm_studio_user_settings = aws_sagemaker.CfnDomain.UserSettingsProperty(
-      execution_role=sagemaker_emr_execution_role.role_arn
+      execution_role=sagemaker_execution_role.role_arn
     )
 
     sagemaker_studio_domain = aws_sagemaker.CfnDomain(self, 'SageMakerStudioDomain',
@@ -211,7 +202,7 @@ class SageMakerStudioStack(Stack):
       user_settings=default_user_settings
     )
 
-    self.sm_execution_role_arn = sagemaker_emr_execution_role.role_arn
+    self.sm_execution_role_arn = sagemaker_execution_role.role_arn
 
     cdk.CfnOutput(self, f'{self.stack_name}-DomainUrl', value=sagemaker_studio_domain.attr_url)
     cdk.CfnOutput(self, f'{self.stack_name}-DomainId', value=sagemaker_user_profile.domain_id)
