@@ -86,6 +86,6 @@ class OpenSearchStack(Stack):
     cdk.Tags.of(opensearch_domain).add('Name', opensearch_domain_name)
 
     cdk.CfnOutput(self, 'OpenSourceDomainArn', value=opensearch_domain.domain_arn, export_name='OpenSourceDomainArn')
-    cdk.CfnOutput(self, 'OpenSearchDomainEndpoint', value=f"https://{opensearch_domain.domain_endpoint}/", export_name='OpenSearchDomainEndpoint')
+    cdk.CfnOutput(self, 'OpenSearchDomainEndpoint', value=f"https://{opensearch_domain.domain_endpoint}", export_name='OpenSearchDomainEndpoint')
     cdk.CfnOutput(self, 'OpenSearchDashboardsURL', value=f"https://{opensearch_domain.domain_endpoint}/_dashboards/", export_name='OpenSearchDashboardsURL')
     cdk.CfnOutput(self, 'OpenSearchSecret', value=master_user_secret.secret_name, export_name='MasterUserSecretId')

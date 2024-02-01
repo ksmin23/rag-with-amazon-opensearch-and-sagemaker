@@ -53,7 +53,7 @@ def check_if_index_exists(index_name: str, region: str, host: str, http_auth: Tu
     #update the region if you're working other than us-east-1
 
     aos_client = OpenSearch(
-        hosts = [{'host': host.replace("https://", ""), 'port': 443}],
+        hosts = [{'host': host.rstrip('/').replace("https://", ""), 'port': 443}],
         http_auth = http_auth,
         use_ssl = True,
         verify_certs = True,
