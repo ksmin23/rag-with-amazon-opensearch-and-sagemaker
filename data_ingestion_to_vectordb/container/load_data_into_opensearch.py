@@ -25,8 +25,6 @@ from sagemaker.session import Session
 
 from langchain.document_loaders import ReadTheDocsLoader
 from langchain.vectorstores import OpenSearchVectorSearch
-from langchain.embeddings import SagemakerEndpointEmbeddings
-from langchain.llms.sagemaker_endpoint import ContentHandlerBase
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # from opensearchpy.client import OpenSearch
