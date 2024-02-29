@@ -6,8 +6,8 @@ import json
 import logging
 from typing import List
 
-from langchain.embeddings import SagemakerEndpointEmbeddings
-from langchain.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
+from langchain_community.embeddings import SagemakerEndpointEmbeddings
+from langchain_community.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
 
 logger = logging.getLogger(__name__)
 
@@ -70,3 +70,4 @@ def create_sagemaker_embeddings_from_js_model(embeddings_model_endpoint_name: st
         content_handler=content_handler
     )
     return embeddings
+
