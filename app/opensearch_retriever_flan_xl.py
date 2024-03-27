@@ -1,28 +1,31 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+# vim: tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+
 import os
 import json
 import logging
 import sys
-from typing import List, Callable
+from typing import List
 from urllib.parse import urlparse
 
 import boto3
 
-from langchain.vectorstores import OpenSearchVectorSearch
-from langchain.embeddings import SagemakerEndpointEmbeddings
-from langchain.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
+from langchain_community.vectorstores import OpenSearchVectorSearch
+from langchain_community.embeddings import SagemakerEndpointEmbeddings
+from langchain_community.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
 
 from langchain.llms.sagemaker_endpoint import (
     SagemakerEndpoint,
-    LLMContentHandler,
-    ContentHandlerBase
+    LLMContentHandler
 )
 
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
+
 logger = logging.getLogger()
 logging.basicConfig(format='%(asctime)s,%(module)s,%(processName)s,%(levelname)s,%(message)s', level=logging.INFO, stream=sys.stderr)
-
 
 class SagemakerEndpointEmbeddingsJumpStart(SagemakerEndpointEmbeddings):
     def embed_documents(

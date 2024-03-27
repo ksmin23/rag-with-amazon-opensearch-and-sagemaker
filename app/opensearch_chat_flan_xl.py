@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+# vim: tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+
 import os
 import json
 import logging
@@ -7,9 +11,9 @@ from urllib.parse import urlparse
 
 import boto3
 
-from langchain.vectorstores import OpenSearchVectorSearch
-from langchain.embeddings import SagemakerEndpointEmbeddings
-from langchain.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
+from langchain_community.vectorstores import OpenSearchVectorSearch
+from langchain_community.embeddings import SagemakerEndpointEmbeddings
+from langchain_community.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
 
 from langchain.llms.sagemaker_endpoint import (
     SagemakerEndpoint,

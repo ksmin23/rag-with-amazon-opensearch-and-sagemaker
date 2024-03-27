@@ -1,22 +1,29 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+# vim: tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+
 import os
 import json
 import logging
 import sys
-from typing import List, Callable
+from typing import List
 from urllib.parse import urlparse
 
 import boto3
 
-from langchain.vectorstores import OpenSearchVectorSearch
-from langchain.embeddings import SagemakerEndpointEmbeddings
-from langchain.llms.sagemaker_endpoint import SagemakerEndpoint
-from langchain.llms.sagemaker_endpoint import LLMContentHandler
-from langchain.llms.sagemaker_endpoint import ContentHandlerBase
-from langchain.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
+from langchain_community.vectorstores import OpenSearchVectorSearch
+from langchain_community.embeddings import SagemakerEndpointEmbeddings
+from langchain_community.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
+
+from langchain.llms.sagemaker_endpoint import (
+    SagemakerEndpoint,
+    LLMContentHandler
+)
+
 from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 
-# logger = logging.getLogger(__name__)
+
 logger = logging.getLogger()
 logging.basicConfig(format='%(asctime)s,%(module)s,%(processName)s,%(levelname)s,%(message)s', level=logging.INFO, stream=sys.stderr)
 
@@ -36,12 +43,10 @@ class SagemakerEndpointEmbeddingsJumpStart(SagemakerEndpointEmbeddings):
             List of embeddings, one for each text.
         """
         results = []
-        #print(f"length of texts = {len(texts)}")
         _chunk_size = len(texts) if chunk_size > len(texts) else chunk_size
 
         for i in range(0, len(texts), _chunk_size):
             response = self._embedding_func(texts[i : i + _chunk_size])
-            #print(response)
             results.extend(response)
         return results
 

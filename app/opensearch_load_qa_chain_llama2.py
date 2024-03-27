@@ -6,7 +6,7 @@ import os
 import json
 import logging
 import sys
-from typing import List, Callable
+from typing import List
 from urllib.parse import urlparse
 
 import boto3
