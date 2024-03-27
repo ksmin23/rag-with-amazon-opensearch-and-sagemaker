@@ -53,5 +53,5 @@ class VpcStack(Stack):
       }
     )
 
-    cdk.CfnOutput(self, '{}_VPCID'.format(self.stack_name), value=self.vpc.vpc_id,
-      export_name='VPCID')
+    cdk.CfnOutput(self, 'VPCID', value=self.vpc.vpc_id,
+      export_name=f'{self.stack_name}-VPCID')
