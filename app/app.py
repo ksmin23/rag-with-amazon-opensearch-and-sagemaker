@@ -2,16 +2,20 @@
 # -*- encoding: utf-8 -*-
 # vim: tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 
+import os
 import streamlit as st
 import uuid
 
-import opensearch_chat_llama2 as llm_app
+import opensearch_chat_flan_xl as flanxl
+import opensearch_chat_llama2 as llama2
 
+PROVIDER_NAME = os.environ.get('PROVIDER_NAME', 'llama2')
 
-USER_ICON = "images/user-icon.png"
-AI_ICON = "images/ai-icon.png"
+USER_ICON = f"{os.path.dirname(__file__)}/images/user-icon.png"
+AI_ICON = f"{os.path.dirname(__file__)}/images/ai-icon.png"
 MAX_HISTORY_LENGTH = 5
 PROVIDER_MAP = {
+    'flanxl': 'Flan XL',
     'llama2': 'Llama2 7B',
 }
 
@@ -26,6 +30,7 @@ else:
 
 
 if 'llm_chain' not in st.session_state:
+    llm_app = llama2 if PROVIDER_NAME == 'llama2' else flanxl
     st.session_state['llm_app'] = llm_app
     st.session_state['llm_chain'] = llm_app.build_chain()
 
@@ -81,7 +86,7 @@ def write_top_bar():
     with col1:
         st.image(AI_ICON, use_column_width='always')
     with col2:
-        selected_provider = 'llama2'
+        selected_provider = PROVIDER_NAME
         if selected_provider in PROVIDER_MAP:
             provider = PROVIDER_MAP[selected_provider]
         else:
@@ -116,7 +121,8 @@ def handle_input():
 
     llm_chain = st.session_state['llm_chain']
     chain = st.session_state['llm_app']
-    result = chain.run_chain(llm_chain, input, chat_history)
+    with st.spinner():
+        result = chain.run_chain(llm_chain, input, chat_history)
     answer = result['answer']
     chat_history.append((input, answer))
 
@@ -185,4 +191,3 @@ with st.container():
 
 st.markdown('---')
 input = st.text_input("You are talking to an AI, ask any question.", key="input", on_change=handle_input)
-

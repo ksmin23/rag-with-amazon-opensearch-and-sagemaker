@@ -6,7 +6,7 @@ import os
 import json
 import logging
 import sys
-from typing import List
+from typing import List, Callable
 from urllib.parse import urlparse
 
 import boto3
@@ -15,10 +15,8 @@ from langchain_community.vectorstores import OpenSearchVectorSearch
 from langchain_community.embeddings import SagemakerEndpointEmbeddings
 from langchain_community.embeddings.sagemaker_endpoint import EmbeddingsContentHandler
 
-from langchain.llms.sagemaker_endpoint import (
-    SagemakerEndpoint,
-    LLMContentHandler
-)
+from langchain_community.llms import SagemakerEndpoint
+from langchain_community.llms.sagemaker_endpoint import LLMContentHandler
 
 from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
@@ -75,12 +73,12 @@ class ContentHandlerForTextGeneration(LLMContentHandler):
     accepts = "application/json"
 
     def transform_input(self, prompt: str, model_kwargs = {}) -> bytes:
-        input_str = json.dumps({"text_inputs": prompt, **model_kwargs})
+        input_str = json.dumps({"inputs": prompt, **model_kwargs})
         return input_str.encode('utf-8')
 
     def transform_output(self, output: bytes) -> str:
         response_json = json.loads(output.read().decode("utf-8"))
-        return response_json["generated_texts"][0]
+        return response_json[0]["generated_texts"]
 
 
 def _create_sagemaker_embeddings(endpoint_name: str, region: str = "us-east-1") -> SagemakerEndpointEmbeddingsJumpStart:
@@ -193,7 +191,7 @@ def main():
     chain = load_qa_chain(llm=_sm_llm, prompt=prompt, verbose=True)
     logger.info(f"\ntype('chain'): \"{type(chain)}\"\n")
 
-    answer = chain({"input_documents": docs, "question": query}, return_only_outputs=True)['output_text']
+    answer = chain.invoke({"input_documents": docs, "question": query}, return_only_outputs=True)['output_text']
 
     logger.info(f"answer received from llm,\nquestion: \"{query}\"\nanswer: \"{answer}\"")
 

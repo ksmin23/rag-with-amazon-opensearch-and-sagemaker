@@ -20,7 +20,7 @@ The overall architecture is like this:
 2. Open SageMaker Studio and then open a new terminal.
 3. Run the following commands on the terminal to clone the code repository for this project:
    ```
-   git clone https://github.com/ksmin23/rag-with-amazon-opensearch.git
+   git clone https://github.com/ksmin23/rag-with-amazon-opensearch-and-sagemaker.git
    ```
 4. Open `data_ingestion_to_opensearch` notebook and Run it. (For more information, see [here](./data_ingestion_to_vectordb/data_ingestion_to_opensearch.ipynb))
 5. Run Streamlit application. (For more information, see [here](./app/README.md))
@@ -39,4 +39,12 @@ The overall architecture is like this:
   * [Improve search relevance with ML in Amazon OpenSearch Service Workshop](https://catalog.workshops.aws/semantic-search/en-US) - Module 7. Retrieval Augmented Generation
   * [rag-with-amazon-kendra](https://github.com/ksmin23/rag-with-amazon-kendra) - Question Answering application with Large Language Models (LLMs) and Amazon Kendra
   * [rag-with-postgresql-pgvector](https://github.com/ksmin23/rag-with-postgresql-pgvector) - Question Answering application with Large Language Models (LLMs) and Amazon Aurora Postgresql
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
 
